@@ -21,9 +21,7 @@ app.use(express.static("./public"));
 
 app.get("/:id", (req, res) => {
   const { id } = req.params;
-  res.redirect(
-    id === "wow" ? "http://localhost:4000/wow" : "https://google.com"
-  );
+  res.redirect("https://google.com");
 });
 
 app.post("/url", (req, res) => {
@@ -37,4 +35,5 @@ app.post("/url", (req, res) => {
   res.json({ message: `${req.protocol}://${req.get("host")}/${slug}` });
 });
 
-app.listen(4000, () => console.log("app is on port 4000"));
+const { PORT } = process.env.PORT;
+app.listen(PORT || 5000, () => console.log(`app is on port ${PORT || 4000}`));
