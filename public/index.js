@@ -36,7 +36,9 @@ const App = () => {
             className="absolute right-0 text-gray-500 h-full text-base px-2 bg-white rounded flex items-center cursor-pointer"
             onClick={() => {
               navigator.clipboard.readText().then((res) => {
-                urlRef.currentTarget.value = res;
+                console.log(res)
+                if (!res) return;
+                urlRef.current.value = res;
                 setForm((f) => ({ ...f, url: res }));
               });
             }}
@@ -53,7 +55,7 @@ const App = () => {
             className="w-full h-12 text-gray-900 px-4"
             required
             onChange={(e) => {
-              setForm((f) => ({ ...f, url: e.currentTarget.value }));
+              setForm((f) => ({ ...f, url: e.target.value }));
             }}
           />
         </div>
@@ -73,8 +75,8 @@ const App = () => {
             type="text"
             className="w-full"
             onChange={(e) => {
-              const newSlug = e.currentTarget.value.replace(/\s/g, "");
-              e.currentTarget.value = newSlug;
+              const newSlug = e.target.value.replace(/\s/g, "");
+              e.target.value = newSlug;
               setForm((f) => ({
                 ...f,
                 slug: newSlug,
