@@ -36,5 +36,5 @@ app.post("/url", (req, res) => {
   res.json({ message: `${req.protocol}://${req.get("host")}/${slug}` });
 });
 
-const { PORT } = process.env.PORT;
-app.listen(PORT || 5000, () => console.log(`app is on port ${PORT || 4000}`));
+const { PORT } = process.env;
+app.listen(PORT || 5000, () => console.log(`app is on port ${PORT || 5000}`));
