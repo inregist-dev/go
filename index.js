@@ -33,7 +33,7 @@ app.post("/url", (req, res) => {
     return;
   }
 
-  res.json({ message: `${req.protocol}://${req.get("host")}/${slug}` });
+  res.json({ message: `${req.get("host")}/${slug}` });
 });
 
 const { PORT } = process.env;
