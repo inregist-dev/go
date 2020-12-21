@@ -2,11 +2,11 @@
 const { useState, useRef } = React;
 
 const App = () => {
-  const [form, setForm] = useState({ url: "", slug: "" });
+  const [form, setForm] = useState({ url: "", id: "" });
   const [response, setResponse] = useState("");
   const [copy, setCopy] = useState(false);
   const urlRef = useRef(null);
-  const slugRef = useRef(null);
+  const idRef = useRef(null);
 
   return (
     <div
@@ -28,7 +28,7 @@ const App = () => {
             body: JSON.stringify(form),
           })
             .then((res) => res.json())
-            .then(({ message }) => setResponse(message));
+            .then((res) => setResponse(res));
         }}
       >
         <div className="relative">
@@ -36,7 +36,6 @@ const App = () => {
             className="absolute right-0 text-gray-500 h-full text-base px-2 bg-white rounded flex items-center cursor-pointer"
             onClick={() => {
               navigator.clipboard.readText().then((res) => {
-                console.log(res)
                 if (!res) return;
                 urlRef.current.value = res;
                 setForm((f) => ({ ...f, url: res }));
@@ -63,23 +62,20 @@ const App = () => {
           Customize your link (optional)
         </div>
         <div className="flex items-center w-full h-10 px-4 bg-white text-gray-900 text-xl rounded">
-          <div
-            className="text-gray-500"
-            onClick={() => slugRef.current.focus()}
-          >
+          <div className="text-gray-500" onClick={() => idRef.current.focus()}>
             go.inregist.dev/
           </div>
           <input
-            ref={slugRef}
-            name="slug"
+            ref={idRef}
+            name="id"
             type="text"
             className="w-full"
             onChange={(e) => {
-              const newSlug = e.target.value.replace(/\s/g, "");
-              e.target.value = newSlug;
+              const newId = e.target.value.replace(/\s/g, "");
+              e.target.value = newId;
               setForm((f) => ({
                 ...f,
-                slug: newSlug,
+                id: newId,
               }));
             }}
           />
@@ -88,23 +84,26 @@ const App = () => {
           <div className="flex-1 md:mr-2 h-full">
             {response ? (
               <div className="flex items-center justify-between md:flex-row flex-col text-gray-300 text-lg h-full">
-                <div className="flex">
-                  <span className="md:block hidden mr-2">
-                    {"your short link:"}
-                  </span>
-                  <span
-                    className="text-white underline cursor-pointer"
-                    onClick={() => {
-                      setCopy(true);
-                      navigator.clipboard.writeText(response);
-                      setTimeout(() => {
-                        setCopy(false);
-                      }, 3000);
-                    }}
-                  >
-                    {response}
-                  </span>
-                </div>
+                {response.message && (
+                  <div className="flex">
+                    <span className="md:block hidden mr-2">
+                      {"your short link:"}
+                    </span>
+                    <span
+                      className="text-white underline cursor-pointer"
+                      onClick={() => {
+                        setCopy(true);
+                        navigator.clipboard.writeText(response.message);
+                        setTimeout(() => {
+                          setCopy(false);
+                        }, 3000);
+                      }}
+                    >
+                      {response.message}
+                    </span>
+                  </div>
+                )}
+                {response.err && <div>{response.err}</div>}
                 <div
                   className="border border-gray-500 cursor-pointer px-2 py-1 rounded transition duration-300 in-ease-out hover:bg-gray-300 hover:text-gray-900 md:mt-0 mt-4"
                   onClick={() => {
@@ -124,7 +123,6 @@ const App = () => {
           </div>
           <button
             type="submit"
-            onClick={() => console.log("click")}
             className="rounded border text-lg border-white px-4 py-1 transition duration-300 ease-in-out hover:bg-white hover:text-gray-900 md:mt-0 mt-4"
           >
             GO
