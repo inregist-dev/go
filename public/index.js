@@ -104,18 +104,20 @@ const App = () => {
                   </div>
                 )}
                 {response.err && <div>{response.err}</div>}
-                <div
-                  className="border border-gray-500 cursor-pointer px-2 py-1 rounded transition duration-300 in-ease-out hover:bg-gray-300 hover:text-gray-900 md:mt-0 mt-4"
-                  onClick={() => {
-                    setCopy(true);
-                    navigator.clipboard.writeText(response);
-                    setTimeout(() => {
-                      setCopy(false);
-                    }, 3000);
-                  }}
-                >
-                  {!copy ? "copy link" : "copied"}
-                </div>
+                {response.message && (
+                  <div
+                    className="border border-gray-500 cursor-pointer px-2 py-1 rounded transition duration-300 in-ease-out hover:bg-gray-300 hover:text-gray-900 md:mt-0 mt-4"
+                    onClick={() => {
+                      setCopy(true);
+                      navigator.clipboard.writeText(response.message);
+                      setTimeout(() => {
+                        setCopy(false);
+                      }, 3000);
+                    }}
+                  >
+                    {!copy ? "copy link" : "copied"}
+                  </div>
+                )}
               </div>
             ) : (
               <div />
