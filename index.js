@@ -44,6 +44,7 @@ app.get("/:id", async (req, res) => {
   else res.redirect("/?LinkNotFound");
 });
 
+//add url to db
 app.post("/url", async (req, res) => {
   const { url, id } = req.body;
 
