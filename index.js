@@ -66,7 +66,7 @@ app.post("/url", async (req, res) => {
   // slug
   const slug = id || nanoid(5);
 
-  // check exist
+  // check existing
   const doc = await go.doc(slug).get();
   if (!doc.data()) {
     await go.doc(slug).set({ url });
