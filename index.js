@@ -63,7 +63,7 @@ app.post("/url", async (req, res) => {
     return;
   }
 
-  // slug
+  // slug or nanoid
   const slug = id || nanoid(5);
 
   // check exist
